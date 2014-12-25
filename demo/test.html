@@ -1,0 +1,157 @@
+<meta charset="UTF-8" />
+<style>
+
+div{
+	height:90px;
+	width:300px;
+	border:2px solid green;
+	border-radius:2px;
+	margin-top:10px;
+	overflow:hidden;
+	line-height:18px;
+}
+/*
+ div{
+ 	height:90px;
+ 	width:800px;
+ 	border:2px solid green;
+ 	border-radius:2px;
+ 	margin-top:10px;
+ 	overflow:hidden;
+ 	line-height:18px;
+ } 
+*/
+div:hover{
+	color:#0099cc;
+}
+#textNotice{
+	color:red;
+	font-weight: bold;
+}
+h3{
+	color:red;
+}
+
+.content{display:table-cell; height:200px; padding:0 30px; border:1px solid red; color:black; font-size:14px; vertical-align:middle;}
+.content .text-overflow-byjs{display:inline-block; font-size:14px; vertical-align:middle;}
+
+</style>
+
+
+
+<h3>异步添加数据</h3>
+<input type="button" onclick="cc('jp')" value="日语"/>
+<input type="button" onclick="cc('th')" value="泰语"/>
+<input type="button" onclick="cc('ar')" value="阿语"/>
+<input id = "add30" type="button" value="30条渲染测试"/>
+<input id = "add50" type="button" value="50条渲染测试"/>
+<input id = "add100" type="button" value="100条渲染测试"/>
+<input id = "clear" type="button" value="清空"/>
+<span id = "textNotice"></span>
+<span id = "wrap">
+
+</span>
+
+<script type="text/javascript" src="js/jquery-1.9.1.js"></script>
+<script>
+
+var _Tem;
+
+
+function tob(parent){
+	dom = parent?parent.find(".text-overflow-byjs"):$(".text-overflow-byjs");
+	dom.each(function(i){
+		var parentHeight = $(this).height(),
+			$children = $(this).children(),
+			i=0,
+			j=6,
+			$child;
+		switch($children.eq(0)[0].tagName){ 
+			case "IMG" :$child = $children.eq(1);break;//解决图文混排问题,其他情况可以添加更多的case
+			default :$child = $children.eq(0);
+		}
+		
+		while($child.outerHeight() > parentHeight ) {
+			console.log("a");
+			//$child.text($child.text().replace(/(\s)*([a-zA-Z0-9]+|\W)(\.\.\.)?$/, "..."));
+			var content = $child.text();
+			if(parseInt($child.outerHeight())>parseInt(parentHeight)*2){//判断高度情况
+				$child.text(content.substring(0,(content.length)/2)+"...");
+			}else if(parseInt($child.outerHeight())>parseInt(parentHeight)*1.5){
+				$child.text(content.substring(0,content.length-content.length*0.4)+"...");
+			}else if(parseInt($child.outerHeight())>parseInt(parentHeight)*1.3){
+				$child.text(content.substring(0,content.length-content.length*0.2)+"...");
+			}else if(content.lastIndexOf(" ")>-1){//判断数字阶段
+				 $child.text(content.substring(0,content.lastIndexOf(" "))+"...");
+				// i+=1;
+				// j = 6+i;
+				// $child.text(content.substring(0,content.length-j)+"...");
+			}else{
+				i+=1;
+				j = 6;
+				$child.text(content.substring(0,content.length-j)+"...");
+			}
+		};
+	});
+}
+
+tob();
+$("#add30").on("click",function(){
+	render(30);
+});
+
+$("#add50").on("click",function(){
+	render(50);
+});
+
+$("#add100").on("click",function(){
+	render(100);
+});
+
+function cc(country){
+	switch(country){
+		case "jp":_Tem = '<div class="text-overflow-byjs">'+
+						'<a>'+
+						'国土交通省は航空会社のパイロットの年齢制限を緩める検討に入った。現在64歳の上限を2015年度から１～２年延ばす。格安航空会社（ＬＣＣ）の就航増など'+
+						'を背景にパイロット不足が深刻化していることに対応する。併せて乗務時間制限の緩和や海外のライセンスを持つ外国人パイロットの登用促進策も打ち出す。27日に開く有識者会議で同省案として示す。'+
+						'</a></div>';$("#textNotice").html("当前为日文");break;
+
+		case "ar":_Tem ='<div dir=rtl class="text-overflow-byjs">'+
+							'<a>'+
+							'أوروجواي كدولة مضيفة لكأس العالم. احتفلت أوروجواي في نفس العام بالذكري المئوية لأول دستور لها. نجح منتخب أوروجواي في الفوز بالبطولة والحفاظ علي '+'لذهبية التي أحرزها في الأولومبياد عام 1928. أقيمت جميع المباريات في مونتيفيدو عاصمة أوروجواي علي ملعب سنتيناريو الذي تم إنشاءه خصيصًا من '+
+							'أوروجواي كدولة مضيفة لكأس العالم. احتفلت أوروجواي في نفس العام بالذكري المئوية لأول دستور لها. نجح منتخب أوروجواي في الفوز بالبطولة والحفاظ علي '+'لذهبية التي أحرزها في الأولومبياد عام 1928. أقيمت جميع المباريات في مونتيفيدو عاصمة أوروجواي علي ملعب سنتيناريو الذي تم إنشاءه خصيصًا من '+
+							'أوروجواي كدولة مضيفة لكأس العالم. احتفلت أوروجواي في نفس العام بالذكري المئوية لأول دستور لها. نجح منتخب أوروجواي في الفوز بالبطولة والحفاظ علي '+'لذهبية التي أحرزها في الأولومبياد عام 1928. أقيمت جميع المباريات في مونتيفيدو عاصمة أوروجواي علي ملعب سنتيناريو الذي تم إنشاءه خصيصًا من '+
+							'أوروجواي كدولة مضيفة لكأس العالم. احتفلت أوروجواي في نفس العام بالذكري المئوية لأول دستور لها. نجح منتخب أوروجواي في الفوز بالبطولة والحفاظ علي '+'لذهبية التي أحرزها في الأولومبياد عام 1928. أقيمت جميع المباريات في مونتيفيدو عاصمة أوروجواي علي ملعب سنتيناريو الذي تم إنشاءه خصيصًا من '+
+							'</a>'+
+						'</div>';$("#textNotice").html("当前为阿语");break;
+
+		case "th":_Tem = '<div class="text-overflow-byjs">'+	
+						'<a>'+
+							'ฟุตบอลโลกครั้งแรก จัดขึ้นที่ประเทศอุรุกวัย ในปี พ.ศ. 2473 โดย ทีมชาติอุรุกวัย ชนะอาร์เจนตินา 4 -2 '+
+							'ารแข่งขันฟุตบอลโลกครั้งนี้เป็นการแข่งขันครั้งโดยไม่มีการคัดเลือกทีมเข้าเล่น ประเทศที่เข้าร่วมเป็นประเทศที่ได้รับเชิญและเป็นส่วนหนา'+ 
+							'ารแข่งขันฟุตบอลโลกครั้งนี้เป็นการแข่งขันครั้งโดยไม่มีการคัดเลือกทีมเข้าเล่น ประเทศที่เข้าร่วมเป็นประเทศที่ได้รับเชิญและเป็นส่วนหนา'+ 
+							'ารแข่งขันฟุตบอลโลกครั้งนี้เป็นการแข่งขันครั้งโดยไม่มีการคัดเลือกทีมเข้าเล่น ประเทศที่เข้าร่วมเป็นประเทศที่ได้รับเชิญและเป็นส่วนหนา'+ 
+							'ารแข่งขันฟุตบอลโลกครั้งนี้เป็นการแข่งขันครั้งโดยไม่มีการคัดเลือกทีมเข้าเล่น ประเทศที่เข้าร่วมเป็นประเทศที่ได้รับเชิญและเป็นส่วนหนา'+ 
+							'ารแข่งขันฟุตบอลโลกครั้งนี้เป็นการแข่งขันครั้งโดยไม่มีการคัดเลือกทีมเข้าเล่น ประเทศที่เข้าร่วมเป็นประเทศที่ได้รับเชิญและเป็นส่วนหนา'+ 
+							'ารแข่งขันฟุตบอลโลกครั้งนี้เป็นการแข่งขันครั้งโดยไม่มีการคัดเลือกทีมเข้าเล่น ประเทศที่เข้าร่วมเป็นประเทศที่ได้รับเชิญและเป็นส่วนหนา'+ 
+							'ในขณะนั้น ในขณะเดียวกันเนื่องจากค่าใช้จ่ายในการเดินทางข้ามมหาสมุทร'+
+						'</a>'+
+						'</div>';$("#textNotice").html("当前为泰语");break;
+	}
+}
+function render(num){
+	 $("#wrap").html("");
+	 var str=""
+	 for(var i=0;i<num;i++){
+	 	str+=_Tem;
+	}
+	$("#wrap").html(str);
+	tob($("#wrap"));
+}
+
+$("#clear").on("click",function(){
+	$("#wrap").html(" ");
+});
+
+cc("jp");
+</script>
